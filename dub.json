@@ -1,23 +1,19 @@
 {
-    "name": "dagm",
-    "description": "An implementation of arithmetric-geometric algorithms in D",
+    "name": "quincunx",
+    "description": "A fork of dagm for generating quincuncial maps",
     "authors": ["Simon Lederhilger"],
-    "targetType": "executable",
-    "buildTypes": {
-	"release": {
-	    "buildOptions": ["releaseMode", "optimize", "inline"]
-	}
-    },
+    "sourcePaths": ["source"],
+    "importPaths": ["source"],
     "configurations": [
 	{
-	    "name": "palette",
-	    "sourcePaths": ["source"],
-	    "mainSourceFile": "source/dagm.d"
+	    "name": "render",
+	    "targetType": "executable",
+	    "mainSourceFile": "source/quincunx.d"
 	},
 	{
-	    "name": "table",
-	    "sourcePaths": ["source"],
-	    "mainSourceFile": "source/table.d"
+	    "name": "library",
+	    "targetType": "library",
+	    "ecludedSourceFiles": ["source/quicunx.d"]
 	}
     ]
 }
