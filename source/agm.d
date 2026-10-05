@@ -4,6 +4,7 @@ import std.math : sqrt;
 struct AGM
 {
 	double[16] A;
+	double[16] B;
 	double[16] C;
 	size_t length;
 
@@ -13,6 +14,7 @@ struct AGM
 		do
 		{
 			A[length] = a;
+			B[length] = b;
 			C[length] = c;
 			++length;
 			immutable double α = .5 * (a + b);

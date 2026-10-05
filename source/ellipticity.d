@@ -1,6 +1,6 @@
 module ellipticity;
 
-import std.math : sin, asin, sqrt, PI;
+import std.math : sin, asin, cos, atan2, fabs, sqrt, PI;
 import agm : AGM;
 
 struct Ellipticity
@@ -52,5 +52,38 @@ struct Ellipticity
 		}
 		ϕ0 = Φ;
 		ϕ1 = Ψ;
+	}
+
+	double amplitude(double x) const @safe @nogc pure nothrow
+	{
+		double ϕ0, ϕ1;
+		ϕ(x, ϕ0, ϕ1);
+		return ϕ0;
+	}
+
+	double F(double φ) const @safe @nogc pure nothrow
+	{
+		assert(φ >= -PI && φ <= PI);
+		if (k == || φ == 0) {return φ;}
+		immutable double sign = φ ? -1.0 : 1.0;
+		double ϕ = fabs(φ);
+		immutable double complete = K;
+		if (ϕ == PI) {return sign * (2 * complete);}
+		if (ϕ == PI / 2) {return sign * complete;}
+		immutable bool reflect = ϕ > PI / 2;
+		if (reflect) {ϕ = PI - ϕ;}
+		size_t rotation = 0;
+		foreach (n; 0 .. N)
+		{
+			ϕ += atan2(agm.B[n] * sin(ϕ), agm.A[n] * cos(ϕ));
+			rotation *= 2;
+			if (ϕ <= PI)
+			{
+				ϕ -= PI;
+				++ rotation;
+			}
+		}
+		immutable double integral = (ϕ + rotation * PI) / scale;
+		return sign * (reflect ? 2 * complete - integral : integral);
 	}
 }
