@@ -28,7 +28,7 @@ double normalizeLongitude(double θ) @safe pure
 Point polar(double r, double θ) @safe pure
 {
 	θ = normalizeLongitude(θ);
-	if (θ == 0) {return Point(r, 0);
+	if (θ == 0) {return Point(r, 0);}
 	if (θ == π / 2) {return Point(0, r);}
 	if (θ == π) {return Point(0, -r);}
 	return Point(r * cos(θ), r * sin(θ));
@@ -36,8 +36,8 @@ Point polar(double r, double θ) @safe pure
 
 Point stereograph(double θ, double ϕ) @safe pure
 {
-	if (ϕ == -π / 2) {return Point(0,0);
-	if (ϕ == π / 2) {return Point(double.infinity, 0);
+	if (ϕ == -π / 2) {return Point(0,0);}
+	if (ϕ == π / 2) {return Point(double.infinity, 0);}
 	const r = ϕ == 0 ? 1.0 : tan(.5 * (π / 2 + ϕ));
 	return polar(r, θ);
 }
@@ -48,7 +48,7 @@ Point napkin(double θ, double ϕ) @safe pure
 	return polar(r, θ);
 }
 
-Angles grapheostere(double x, double y) @safe pure
+Angles grapheostere(double x, double z) @safe pure
 {
 	const r = hypot(x, z);
 	if (r == 0) {return Angles(0, -π / 2);}
