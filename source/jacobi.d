@@ -1,14 +1,15 @@
 module jacobi;
 
-import std.math : cos;
+import std.math : sin, cos, fabs, copysign;
 import ellipticity : Ellipticity;
 
 double cd(ref const Ellipticity ellipticity, double x) @safe @nogc pure nothrow
 {
-	if (ellipticity.k == 0) {return cos(x);}
+	immutable u = argument(ellipticity, x);
+	if (u.shift) {return u.cnSign * sin(ellipticity.amplitude(u.x));
 	double ϕ0, ϕ1;
-	ellipticity.ϕ(x, ϕ0, ϕ1);
-	return cos(ϕ1 - ϕ0);
+	ellipticity.ϕ(u.x, ϕ0, ϕ1);
+	return u.cnSign * cos(ϕ1 - ϕ0);
 }
 
 void cd(ref const Ellipticity ellipticity, const(double)[] x, double[] codinus) @safe @nogc pure nothrow
@@ -25,9 +26,7 @@ in (x.length == codinus.length)
 
 	foreach (i, X; x)
 	{
-		double ϕ0, ϕ1;
-		ellipticity.ϕ(X, ϕ0, ϕ1);
-		codinus[i] = cos(ϕ1 - ϕ0);
+		codinus[i] = cd(ellipticity, X);
 	}
 }
 
@@ -38,7 +37,7 @@ double[] cd(ref const Ellipticity ellipticity, const(double)[] x) @safe
 	return codinus;
 }
 
-stract Jacobi
+struct Jacobi
 {
 	double sn;
 	double cn;
@@ -101,9 +100,9 @@ double dn(ref const Ellipticity ellipticity, double x) @safe @nogc pure nothrow
 	return u.shift ? ellipticity.kPrime / dnoidal : dnoidal;
 }
 
-Jacobi sncndn(ref const Ellipticity, double x) @safe @nogc pure nothrow
+Jacobi sncndn(ref const Ellipticity ellipticity, double x) @safe @nogc pure nothrow
 {
-	if (elliptic.k == 0) {return Jacobi(sin(x), cos(x), 1);}
+	if (ellipticity.k == 0) {return Jacobi(sin(x), cos(x), 1);}
 	const u = argument(ellipticity, x);
 	double ϕ0, ϕ1;
 	ellipticity.ϕ(u.x, ϕ0, ϕ1);
@@ -115,5 +114,5 @@ Jacobi sncndn(ref const Ellipticity, double x) @safe @nogc pure nothrow
 	{
 		return Jacobi(u.snSign * doppler, u.cnSign * ellipticity.kPrime * sinus / dnoidal, ellipticity.kPrime / dnoidal);
 	}
-	return Jacobi(u.snSign * sinus, u.cnSign * cosinus, d);
+	return Jacobi(u.snSign * sinus, u.cnSign * cosinus, dnoidal);
 }
