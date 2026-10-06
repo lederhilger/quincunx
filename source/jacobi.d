@@ -6,7 +6,7 @@ import ellipticity : Ellipticity;
 double cd(ref const Ellipticity ellipticity, double x) @safe @nogc pure nothrow
 {
 	immutable u = argument(ellipticity, x);
-	if (u.shift) {return u.cnSign * sin(ellipticity.amplitude(u.x));
+	if (u.shift) {return u.cnSign * sin(ellipticity.amplitude(u.x));}
 	double ϕ0, ϕ1;
 	ellipticity.ϕ(u.x, ϕ0, ϕ1);
 	return u.cnSign * cos(ϕ1 - ϕ0);
