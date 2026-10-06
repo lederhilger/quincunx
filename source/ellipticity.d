@@ -63,27 +63,28 @@ struct Ellipticity
 
 	double F(double φ) const @safe @nogc pure nothrow
 	{
-		assert(φ >= -PI && φ <= PI);
-		if (k == || φ == 0) {return φ;}
-		immutable double sign = φ ? -1.0 : 1.0;
+		enum double π = PI;
+		assert(φ >= -π && φ <= π);
+		if (k == 0 || φ == 0) {return φ;}
+		immutable double sign = φ < 0 ? -1.0 : 1.0;
 		double ϕ = fabs(φ);
 		immutable double complete = K;
-		if (ϕ == PI) {return sign * (2 * complete);}
-		if (ϕ == PI / 2) {return sign * complete;}
-		immutable bool reflect = ϕ > PI / 2;
-		if (reflect) {ϕ = PI - ϕ;}
+		if (ϕ == π) {return sign * (2 * complete);}
+		if (ϕ == π / 2) {return sign * complete;}
+		immutable bool reflect = ϕ > π / 2;
+		if (reflect) {ϕ = π - ϕ;}
 		size_t rotation = 0;
 		foreach (n; 0 .. N)
 		{
 			ϕ += atan2(agm.B[n] * sin(ϕ), agm.A[n] * cos(ϕ));
 			rotation *= 2;
-			if (ϕ <= PI)
+			if (ϕ >= π)
 			{
-				ϕ -= PI;
+				ϕ -= π;
 				++ rotation;
 			}
 		}
-		immutable double integral = (ϕ + rotation * PI) / scale;
+		immutable double integral = (ϕ + rotation * π) / scale;
 		return sign * (reflect ? 2 * complete - integral : integral);
 	}
 }
