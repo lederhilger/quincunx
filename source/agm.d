@@ -13,6 +13,7 @@ struct AGM
 		length = 0;
 		do
 		{
+			assert(length < A.length);
 			A[length] = a;
 			B[length] = b;
 			C[length] = c;
@@ -25,6 +26,11 @@ struct AGM
 			c = γ;
 		}
 		while (c > ε);
+		assert(length < A.length);
+		A[length] = a;
+		B[length] = b;
+		C[length] = c;
+		++length;
 	}
 
 	@property double mean() const @safe @nogc pure nothrow
