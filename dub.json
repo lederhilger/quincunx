@@ -13,7 +13,7 @@
 	{
 	    "name": "library",
 	    "targetType": "library",
-	    "ecludedSourceFiles": ["source/quicunx.d"]
+	    "excludedSourceFiles": ["source/quincunx.d"]
 	}
     ]
 }
