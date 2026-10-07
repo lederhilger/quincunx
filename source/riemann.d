@@ -30,7 +30,7 @@ Point polar(double r, double θ) @safe pure
 	θ = normalizeLongitude(θ);
 	if (θ == 0) {return Point(r, 0);}
 	if (θ == π / 2) {return Point(0, r);}
-	if (θ == π) {return Point(0, -r);}
+	if (θ == π) {return Point(-r, 0);}
 	return Point(r * cos(θ), r * sin(θ));
 }
 
